@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block body %}
+<h2>📊 Reports</h2>
+{% for title, rows, sql, error in data %}
+  <h3>{{ title }}</h3>
+  {% if error %}
+    <div class="msg error">{{ error }}</div>
+  {% elif rows %}
+  <div class="tablewrap">
+  <table>
+    <tr>{% for k in rows[0].keys() %}<th>{{ k.replace('_', ' ') }}</th>{% endfor %}</tr>
+    {% for r in rows %}
+      <tr>{% for k, v in r.items() %}
+        <td>{% if k == 'status' %}<span class="badge {{ v }}">{{ v }}</span>{% else %}{{ v if v is not none else '' }}{% endif %}</td>
+      {% endfor %}</tr>
+    {% endfor %}
+  </table>
+  </div>
+  {% else %}<p style="color:#6b7280">No data.</p>{% endif %}
+  <details><summary>SQL used</summary><pre>{{ sql }}</pre></details>
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="hero">
+  <h2>Welcome, {{ current_role }}</h2>
+  <p>Clubs, events, registrations, venues, and expenses in one place.</p>
+</div>
+{% set icons = {'students': '🎓', 'clubs': '🏛️', 'venues': '📍', 'events': '📅', 'upcoming_events': '⏳', 'seats_taken': '🎟️'} %}
+<div class="cards">
+  {% for key, value in stats.items() %}
+    <div class="card">
+      <span class="icon">{{ icons.get(key, '•') }}</span>
+      <b>{{ value }}</b>
+      <span class="label">{{ key.replace('_', ' ') }}</span>
+    </div>
+  {% endfor %}
+</div>
+<details><summary>SQL used for these numbers</summary><pre>{{ sql }}</pre></details>
+{% endblock %}

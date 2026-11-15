@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block body %}
+<h2>{{ 'Edit' if editing else 'Add' }}: {{ e.title }}</h2>
+<form method="post" class="formcard">
+  {% for f in fields %}
+    {% set v = values.get(f.name) %}
+    <label>{{ f.label }}
+      {% if f.type == 'select' %}
+        <select name="{{ f.name }}" {{ 'required' if f.req }}>
+          {% for val, label in options[f.name] %}
+            <option value="{{ val }}" {{ 'selected' if v is not none and v|string == val|string }}>{{ label }}</option>
+          {% endfor %}
+        </select>
+      {% else %}
+        <input type="{{ f.type }}" name="{{ f.name }}" step="any" {{ 'required' if f.req }}
+          value="{% if v is none %}{% elif f.type == 'datetime-local' and v.strftime is defined %}{{ v.strftime('%Y-%m-%dT%H:%M') }}{% else %}{{ v }}{% endif %}">
+      {% endif %}
+    </label>
+  {% endfor %}
+  <button type="submit">Save</button>
+  <a class="btn secondary" href="{{ url_for('listing', ent=ent) }}">Cancel</a>
+</form>
+{% endblock %}

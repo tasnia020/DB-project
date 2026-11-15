@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="hero">
+  <h2>🎓 CampusEvents</h2>
+  <p>University Event and Club Management System. Choose a role to continue.</p>
+</div>
+{% set info = {
+  'admin_user': ('🛡️', 'Can do everything: all tables, all changes.'),
+  'club_admin_user': ('🧑‍💼', 'Reads everything. Manages events, members, registrations, and expenses.'),
+  'student_user': ('🎓', 'Reads events and clubs. Registers for events and joins clubs. Cannot see expenses.')
+} %}
+<form method="post">
+  <div class="roles">
+    {% for key, label in roles.items() %}
+      <button type="submit" name="role" value="{{ key }}" class="rolecard">
+        <span class="icon">{{ info[key][0] }}</span>
+        <span class="name">{{ label }}</span>
+        <span class="desc">{{ info[key][1] }}</span>
+      </button>
+    {% endfor %}
+  </div>
+</form>
+<p style="color:#6b7280;margin-top:22px;font-size:14px">
+  The website connects to PostgreSQL as the chosen role, so the database itself decides what you may do.
+</p>
+{% endblock %}
